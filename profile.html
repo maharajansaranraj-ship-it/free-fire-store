@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ta">
 <head>
     <meta charset="UTF-8">
@@ -34,24 +34,12 @@
     <button class="btn-main" onclick="location.href='redeem.html'" style="width: 100%; margin-top: 30px;">GO TO REDEEM PAGE</button>
 </main>
 
-<script>
-    window.onload = function() {
-        document.getElementById('display-name').innerText = localStorage.getItem('ff_username') || "Soldier";
-        document.getElementById('display-phone').innerText = localStorage.getItem('ff_userphone') || "No Phone";
-        document.getElementById('prof-coins').innerText = localStorage.getItem('user_coins') || 0;
-    }
-
-    function logout() {
-        if(confirm("லாக் அவுட் பண்ணலாமா?")) {
-            localStorage.clear();
-            location.href = 'index.html';
-        }
-    }
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<!-- ✅ Firebase (single correct setup) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
 <script>
-  const firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyCAilX0GQnN127N1SxCJ861qMxAO0svNUQ",
     authDomain: "ff-id-store-dab0f.firebaseapp.com",
     projectId: "ff-id-store-dab0f",
@@ -59,35 +47,36 @@
     messagingSenderId: "655049193530",
     appId: "1:655049193530:web:978aaf75e10dd26bb8dd03",
     databaseURL: "https://ff-id-store-dab0f-default-rtdb.firebaseio.com"
-  };
+};
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-  // யூசர் லாகின் செக் பண்ண
-  let userPhone = localStorage.getItem('ff_userphone');
-  if(!userPhone) {
-      userPhone = prompt("உங்க வாட்ஸ்அப் நம்பர் குடுங்க (Login):");
-      localStorage.setItem('ff_userphone', userPhone);
-  }
+// ✅ Load user info
+let userPhone = localStorage.getItem('ff_userphone');
+let username = localStorage.getItem('ff_username') || "Soldier";
 
-  // டேட்டாபேஸ்ல இருந்து காயின்ஸை எடுத்து எல்லா பேஜுக்கும் காட்டும்
-  db.ref('users/' + userPhone).on('value', (snapshot) => {
-      const userData = snapshot.val() || { coins: 0 };
-      localStorage.setItem('user_coins', userData.coins);
-      document.getElementById('user-coins').innerText = userData.coins;
-  });
+document.getElementById('display-name').innerText = username;
+document.getElementById('display-phone').innerText = userPhone || "No Phone";
 
-  window.toggleMenu = function() {
-      const menu = document.getElementById('side-menu');
-      const overlay = document.getElementById('menu-overlay');
-      menu.style.left = (menu.style.left === '0px') ? '-300px' : '0px';
-      overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
-  }
-</script>
+// ✅ Coins realtime update
+if(userPhone){
+    db.ref('users/' + userPhone).on('value', (snapshot) => {
+        const userData = snapshot.val() || { coins: 0 };
 
+        document.getElementById('prof-coins').innerText = userData.coins;
+        localStorage.setItem('user_coins', userData.coins);
+    });
+}
+
+// ✅ Logout
+function logout() {
+    if(confirm("லாக் அவுட் பண்ணலாமா?")) {
+        localStorage.clear();
+        location.href = 'index.html';
+    }
+}
 </script>
 
 </body>
 </html>
-
