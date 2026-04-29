@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ta">
 <head>
     <meta charset="UTF-8">
@@ -30,77 +30,91 @@
 </div>
 
 <div class="id-grid" id="id-container">
+
     <div class="id-card" data-name="MC Funk Bundle">
         <div class="slider">
-            <img src="img1.jpg" alt="1">
-            <img src="img2.jpg" alt="2">
+            <img src="img1.jpg">
+            <img src="img2.jpg">
         </div>
         <div class="id-info">
             <h3>MC Funk Bundle</h3>
-            <p style="font-size: 0.8rem; color: #94a3b8; margin: 5px 0;">UID: 2288608789 | Level: 50</p>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <p style="font-size: 0.8rem; color: #94a3b8;">UID: 2288608789 | Level: 50</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
                 <span class="price-tag">₹ 180</span>
-                <button class="btn-main" onclick="buyNow('MC Funk', '₹180')">BUY NOW</button>
+                <button class="btn-main" onclick="buyNow('MC Funk Bundle', 180)">BUY NOW</button>
             </div>
         </div>
     </div>
+
 </div>
 
-<script>
-    function searchIDs() {
-        let input = document.getElementById('searchInput').value.toLowerCase();
-        let cards = document.getElementsByClassName('id-card');
-        for (let card of cards) {
-            let name = card.getAttribute('data-name').toLowerCase();
-            card.style.display = name.includes(input) ? "block" : "none";
-        }
-    }
-
-    function buyNow(name, price) {
-        let msg = `*BUY REQUEST*%0AID: ${name}%0APrice: ${price}`;
-        window.open(`https://wa.me/917845229384?text=${msg}`, '_blank');
-    }
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<!-- ✅ Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCAilX0GQnN127N1SxCJ861qMxAO0svNUQ",
-    authDomain: "ff-id-store-dab0f.firebaseapp.com",
-    projectId: "ff-id-store-dab0f",
-    storageBucket: "ff-id-store-dab0f.firebasestorage.app",
-    messagingSenderId: "655049193530",
-    appId: "1:655049193530:web:978aaf75e10dd26bb8dd03",
-    databaseURL: "https://ff-id-store-dab0f-default-rtdb.firebaseio.com"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCAilX0GQnN127N1SxCJ861qMxAO0svNUQ",
+  authDomain: "ff-id-store-dab0f.firebaseapp.com",
+  projectId: "ff-id-store-dab0f",
+  storageBucket: "ff-id-store-dab0f.firebasestorage.app",
+  messagingSenderId: "655049193530",
+  appId: "1:655049193530:web:978aaf75e10dd26bb8dd03",
+  databaseURL: "https://ff-id-store-dab0f-default-rtdb.firebaseio.com"
+};
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-  // யூசர் லாகின் செக் பண்ண
-  let userPhone = localStorage.getItem('ff_userphone');
-  if(!userPhone) {
-      userPhone = prompt("உங்க வாட்ஸ்அப் நம்பர் குடுங்க (Login):");
-      localStorage.setItem('ff_userphone', userPhone);
-  }
+// 🔍 Search
+function searchIDs() {
+    let input = document.getElementById('searchInput').value.toLowerCase();
+    let cards = document.getElementsByClassName('id-card');
+    for (let card of cards) {
+        let name = card.getAttribute('data-name').toLowerCase();
+        card.style.display = name.includes(input) ? "block" : "none";
+    }
+}
 
-  // டேட்டாபேஸ்ல இருந்து காயின்ஸை எடுத்து எல்லா பேஜுக்கும் காட்டும்
-  db.ref('users/' + userPhone).on('value', (snapshot) => {
-      const userData = snapshot.val() || { coins: 0 };
-      localStorage.setItem('user_coins', userData.coins);
-      document.getElementById('user-coins').innerText = userData.coins;
-  });
+// 🛒 Buy system (🔥 important)
+function buyNow(name, price) {
+    let userPhone = localStorage.getItem('ff_userphone');
+    let coins = parseInt(localStorage.getItem('user_coins')) || 0;
 
-  window.toggleMenu = function() {
-      const menu = document.getElementById('side-menu');
-      const overlay = document.getElementById('menu-overlay');
-      menu.style.left = (menu.style.left === '0px') ? '-300px' : '0px';
-      overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
-  }
-</script>
+    if (!userPhone) {
+        alert("Login first!");
+        return;
+    }
 
+    if (coins < price) {
+        alert("Not enough coins!");
+        return;
+    }
+
+    let newCoins = coins - price;
+
+    // 🔥 Update coins in DB
+    db.ref('users/' + userPhone).update({
+        coins: newCoins
+    });
+
+    localStorage.setItem('user_coins', newCoins);
+
+    // 🔥 Save order
+    db.ref('orders').push({
+        user: userPhone,
+        item: name,
+        price: price,
+        status: "pending"
+    });
+
+    // ✅ WhatsApp
+    let msg = `BUY REQUEST\nID: ${name}\nPrice: ₹${price}\nUser: ${userPhone}`;
+    window.open(`https://wa.me/917845229384?text=${encodeURIComponent(msg)}`, '_blank');
+
+    alert("Order placed 🔥");
+}
 </script>
 
 </body>
 </html>
-
