@@ -1,0 +1,42 @@
+﻿:root {
+    --primary: #00d2ff;
+    --secondary: #00ff88;
+    --accent: #ff007a;
+    --dark: #05070a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
+
+body { 
+    background: var(--dark);
+    color: white; 
+    min-height: 100vh;
+}
+
+/* Header & Sidebar Styles */
+header { 
+    padding: 15px; background: rgba(5, 7, 10, 0.9);
+    border-bottom: 2px solid var(--primary);
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 1000;
+}
+
+.nav-link {
+    display: block; color: white; text-decoration: none;
+    padding: 15px 20px; border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 1.1rem;
+}
+
+#side-menu {
+    position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
+    background: #080c14; z-index: 10002; transition: 0.4s;
+    border-right: 2px solid var(--primary);
+}
+
+/* Common Buttons */
+.btn-main {
+    background: var(--primary); color: black;
+    padding: 12px 25px; border-radius: 10px; border: none;
+    font-weight: bold; cursor: pointer;
+}
+

@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF Store | Home</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</head>
+<body>
+
+<header>
+    <div onclick="toggleMenu()" style="cursor: pointer; font-size: 1.5rem; color: var(--primary);">
+        <i class="fas fa-bars"></i>
+    </div>
+    <div style="font-family: 'Orbitron'; color: var(--primary); font-weight: bold;">FF STORE PRO</div>
+    <div id="top-coins" style="color: var(--secondary);"><i class="fas fa-coins"></i> <span id="user-coins">0</span></div>
+</header>
+
+<div id="side-menu">
+    <div style="padding: 40px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1);">
+        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" style="width: 70px; border-radius: 50%; border: 2px solid var(--primary);">
+        <h4 style="margin-top: 10px;">Soldier</h4>
+    </div>
+    <nav>
+        <a href="index.html" class="nav-link"><i class="fas fa-home"></i> Home</a>
+        <a href="store.html" class="nav-link"><i class="fas fa-shopping-cart"></i> Store</a>
+        <a href="sell.html" class="nav-link"><i class="fas fa-plus-circle"></i> Sell ID</a>
+        <a href="redeem.html" class="nav-link" style="color: var(--secondary);"><i class="fas fa-gift"></i> Redeem Coins</a>
+        <a href="support.html" class="nav-link"><i class="fas fa-headset"></i> Support</a>
+        <a href="settings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
+    </nav>
+</div>
+<div id="menu-overlay" onclick="toggleMenu()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10001;"></div>
+
+<main style="padding: 20px;">
+    <div style="background: linear-gradient(rgba(0,210,255,0.1), transparent); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); text-align: center;">
+        <h2>WELCOME TO FF STORE</h2>
+        <p style="color: #94a3b8; margin: 15px 0;">Premium IDs & Fast Rewards</p>
+        <button class="btn-main" onclick="location.href='store.html'">VISIT STORE</button>
+    </div>
+</main>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
+
+    // நீங்க காப்பி பண்ண Firebase Config-ஐ இங்க போடுங்க
+    const firebaseConfig = {
+        apiKey: "AIzaSyCAilX0GQnN127N1SxCJ861qMxAO0svNUQ",
+        authDomain: "ff-id-store-dab0f.firebaseapp.com",
+        projectId: "ff-id-store-dab0f",
+        storageBucket: "ff-id-store-dab0f.firebasestorage.app",
+        messagingSenderId: "655049193530",
+        appId: "1:655049193530:web:978aaf75e10dd26bb8dd03",
+        databaseURL: "https://ff-id-store-dab0f-default-rtdb.firebaseio.com" // இதை செக் பண்ணிக்கோங்க
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Hamburger Menu Function
+    window.toggleMenu = function() {
+        const menu = document.getElementById('side-menu');
+        const overlay = document.getElementById('menu-overlay');
+        if (menu.style.left === '0px') {
+            menu.style.left = '-300px';
+            overlay.style.display = 'none';
+        } else {
+            menu.style.left = '0px';
+            overlay.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
+

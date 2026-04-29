@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF Store | Redeem</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        .redeem-card {
+            background: linear-gradient(135deg, rgba(0,210,255,0.1), rgba(0,255,136,0.1));
+            border-radius: 20px; padding: 30px; text-align: center;
+            border: 1px solid var(--secondary); margin-top: 20px;
+        }
+        .coin-balance { font-size: 3rem; color: #ffcc00; margin: 15px 0; font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div onclick="location.href='index.html'" style="cursor: pointer;"><i class="fas fa-arrow-left"></i></div>
+    <div style="font-family: 'Orbitron'; color: var(--primary);">REDEEM REWARDS</div>
+    <div style="width: 20px;"></div>
+</header>
+
+<main style="padding: 20px;">
+    <div class="redeem-card">
+        <p style="color: #94a3b8;">Available Coins</p>
+        <div class="coin-balance"><i class="fas fa-coins"></i> <span id="current-coins">0</span></div>
+        <p style="font-size: 0.8rem; margin-bottom: 20px;">(10 Coins = ₹50 Cash)</p>
+        
+        <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; border: 1px dashed var(--primary);">
+            <h3 style="margin-bottom: 10px;">REDEEM ₹50</h3>
+            <button class="btn-main" onclick="processRedeem()" style="width: 100%; background: var(--secondary);">CLAIM NOW</button>
+        </div>
+        <p id="status-msg" style="margin-top: 15px; font-size: 0.9rem;"></p>
+    </div>
+</main>
+
+<script>
+    // பேஜ் லோட் ஆகும்போது காயின்ஸை செக் பண்ணும்
+    window.onload = function() {
+        let coins = localStorage.getItem('user_coins') || 0;
+        document.getElementById('current-coins').innerText = coins;
+    }
+
+    function processRedeem() {
+        let coins = parseInt(localStorage.getItem('user_coins')) || 0;
+        let uName = localStorage.getItem('ff_username') || "User";
+        let uPhone = localStorage.getItem('ff_userphone') || "Unknown";
+
+        if (coins < 10) {
+            document.getElementById('status-msg').style.color = "#ff4d4d";
+            document.getElementById('status-msg').innerText = "உங்ககிட்ட போதுமான காயின்ஸ் இல்லை! (குறைந்தது 10 வேணும்)";
+            return;
+        }
+
+        // காயின்ஸைக் குறைத்தல்
+        coins -= 10;
+        localStorage.setItem('user_coins', coins);
+        document.getElementById('current-coins').innerText = coins;
+
+        // உங்களுக்கு (அட்மின்) வாட்ஸ்அப் மெசேஜ்
+        let msg = `*REDEEM REQUEST*%0AStatus: PENDING%0AName: ${uName}%0APhone: ${uPhone}%0AAction: Used 10 Coins%0AReward: ₹50 Cashback`;
+        
+        document.getElementById('status-msg').style.color = var(--secondary);
+        document.getElementById('status-msg').innerText = "Request Sent! அட்மின் வெரிஃபை பண்ணிட்டு பணம் அனுப்புவார்.";
+
+        window.open(`https://wa.me/917845229384?text=${msg}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
+

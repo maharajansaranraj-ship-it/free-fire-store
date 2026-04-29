@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF Store | Sell ID</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: var(--primary); font-size: 0.9rem; }
+        input, select, textarea { width: 100%; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; outline: none; }
+        input:focus { border-color: var(--secondary); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div onclick="location.href='index.html'" style="cursor: pointer;"><i class="fas fa-arrow-left"></i></div>
+    <div style="font-family: 'Orbitron'; color: var(--primary);">SELL YOUR ID</div>
+    <div style="width: 20px;"></div>
+</header>
+
+<main style="padding: 20px;">
+    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);">
+        <p style="text-align: center; margin-bottom: 20px; font-size: 0.9rem; color: #94a3b8;">ஐடி விக்க டீடைல்ஸை நிரப்புங்க. அட்மின் உங்களை தொடர்பு கொள்வார்.</p>
+        
+        <form id="sellForm">
+            <div class="form-group">
+                <label>Player Name</label>
+                <input type="text" id="pName" placeholder="உங்க கேம் பெயர்" required>
+            </div>
+            <div class="form-group">
+                <label>Level</label>
+                <input type="number" id="pLevel" placeholder="உங்க ஐடி லெவல்" required>
+            </div>
+            <div class="form-group">
+                <label>WhatsApp Number</label>
+                <input type="tel" id="pPhone" placeholder="அட்மின் பேச வேண்டிய நம்பர்" required>
+            </div>
+            <div class="form-group">
+                <label>Expected Price (₹)</label>
+                <input type="number" id="pPrice" placeholder="எவ்வளவு ரூபாய்க்கு விக்க போறீங்க?" required>
+            </div>
+            <div class="form-group">
+                <label>Main Items</label>
+                <textarea id="pDesc" rows="3" placeholder="Evo Guns, Old Bundles, etc..."></textarea>
+            </div>
+            
+            <button type="button" class="btn-main" onclick="sendToAdmin()" style="width: 100%; margin-top: 10px;">SUBMIT TO ADMIN</button>
+        </form>
+    </div>
+</main>
+
+<script>
+    function sendToAdmin() {
+        const name = document.getElementById('pName').value;
+        const level = document.getElementById('pLevel').value;
+        const phone = document.getElementById('pPhone').value;
+        const price = document.getElementById('pPrice').value;
+        const desc = document.getElementById('pDesc').value;
+
+        if(!name || !phone || !price) {
+            alert("முக்கியமான டீடைல்ஸை நிரப்புங்க பூர்ணா!");
+            return;
+        }
+
+        let msg = `*NEW SELL REQUEST*%0AName: ${name}%0ALevel: ${level}%0APhone: ${phone}%0APrice: ₹${price}%0ADetails: ${desc}`;
+        window.open(`https://wa.me/917845229384?text=${msg}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
+

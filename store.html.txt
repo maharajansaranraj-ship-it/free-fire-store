@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF Store | Shop</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <style>
+        .id-grid { display: grid; grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+        .id-card { background: rgba(255,255,255,0.05); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); }
+        .slider { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; height: 200px; }
+        .slider img { min-width: 100%; object-fit: cover; scroll-snap-align: start; }
+        .id-info { padding: 15px; }
+        .price-tag { color: var(--secondary); font-size: 1.5rem; font-weight: bold; }
+        .search-bar { padding: 15px 20px; }
+        .search-bar input { width: 100%; padding: 12px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid var(--primary); color: white; outline: none; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div onclick="location.href='index.html'" style="cursor: pointer;"><i class="fas fa-arrow-left"></i></div>
+    <div style="font-family: 'Orbitron'; color: var(--primary);">ID STORE</div>
+    <div><i class="fas fa-shopping-cart"></i></div>
+</header>
+
+<div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search Evo, Rare, Old IDs..." onkeyup="searchIDs()">
+</div>
+
+<div class="id-grid" id="id-container">
+    <div class="id-card" data-name="MC Funk Bundle">
+        <div class="slider">
+            <img src="img1.jpg" alt="1">
+            <img src="img2.jpg" alt="2">
+        </div>
+        <div class="id-info">
+            <h3>MC Funk Bundle</h3>
+            <p style="font-size: 0.8rem; color: #94a3b8; margin: 5px 0;">UID: 2288608789 | Level: 50</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+                <span class="price-tag">₹ 180</span>
+                <button class="btn-main" onclick="buyNow('MC Funk', '₹180')">BUY NOW</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function searchIDs() {
+        let input = document.getElementById('searchInput').value.toLowerCase();
+        let cards = document.getElementsByClassName('id-card');
+        for (let card of cards) {
+            let name = card.getAttribute('data-name').toLowerCase();
+            card.style.display = name.includes(input) ? "block" : "none";
+        }
+    }
+
+    function buyNow(name, price) {
+        let msg = `*BUY REQUEST*%0AID: ${name}%0APrice: ${price}`;
+        window.open(`https://wa.me/917845229384?text=${msg}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
+
