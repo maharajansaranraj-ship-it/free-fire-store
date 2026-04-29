@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ta">
 <head>
     <meta charset="UTF-8">
@@ -9,13 +9,17 @@
 <body style="display: flex; align-items: center; justify-content: center; height: 100vh;">
 
 <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); width: 90%; max-width: 400px; text-align: center;">
+    
     <h2 style="color: var(--primary); font-family: 'Orbitron'; margin-bottom: 20px;">USER LOGIN</h2>
-    
-    <input type="text" id="uName" placeholder="Enter Name" style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; background: #111; border: 1px solid #333; color: white;">
-    
-    <input type="tel" id="uPhone" placeholder="WhatsApp Number" style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 10px; background: #111; border: 1px solid #333; color: white;">
-    
+
+    <input type="text" id="uName" placeholder="Enter Name"
+    style="width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 10px; background: #111; border: 1px solid #333; color: white;">
+
+    <input type="tel" id="uPhone" placeholder="WhatsApp Number"
+    style="width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 10px; background: #111; border: 1px solid #333; color: white;">
+
     <button class="btn-main" onclick="saveLogin()" style="width: 100%;">START TRADING</button>
+
 </div>
 
 <!-- ✅ Firebase -->
@@ -36,32 +40,38 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
+// 🔥 LOGIN FUNCTION
 function saveLogin() {
     const name = document.getElementById('uName').value;
     const phone = document.getElementById('uPhone').value;
 
-    if(name && phone) {
+    if(!name || !phone){
+        alert("டீடைல்ஸ் குடுங்க!");
+        return;
+    }
 
-        // ✅ local storage save
-        localStorage.setItem('ff_username', name);
-        localStorage.setItem('ff_userphone', phone);
+    // ✅ Save locally
+    localStorage.setItem('ff_username', name);
+    localStorage.setItem('ff_userphone', phone);
 
-        // 🔥 Firebase user create (IMPORTANT)
-        db.ref('users/' + phone).once('value', snapshot => {
-            if(!snapshot.exists()){
-                db.ref('users/' + phone).set({
-                    name: name,
-                    coins: 0
-                });
-            }
-        });
+    // 🔥 Create user in Firebase (if not exists)
+    db.ref('users/' + phone).once('value').then(snapshot => {
+
+        if(!snapshot.exists()){
+            db.ref('users/' + phone).set({
+                name: name,
+                coins: 0
+            });
+        }
 
         alert("Login Success 🔥\nYour ID: " + phone);
 
-        location.href = 'index.html';
-    } else {
-        alert("டீடைல்ஸ் குடுங்க!");
-    }
+        // ✅ REDIRECT (important)
+        window.location.href = "./index.html";
+
+    }).catch(err => {
+        alert("Error: " + err);
+    });
 }
 </script>
 
