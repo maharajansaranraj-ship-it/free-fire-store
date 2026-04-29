@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF Store | Support</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</head>
+<body>
+
+<header>
+    <div onclick="location.href='index.html'" style="cursor: pointer;"><i class="fas fa-arrow-left"></i></div>
+    <div style="font-family: 'Orbitron'; color: var(--primary);">HELP & SUPPORT</div>
+    <div style="width: 20px;"></div>
+</header>
+
+<main style="padding: 20px; text-align: center;">
+    <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); margin-bottom: 20px;">
+        <i class="fab fa-whatsapp" style="font-size: 4rem; color: #25D366; margin-bottom: 15px;"></i>
+        <h2>Direct Chat</h2>
+        <p style="color: #94a3b8; margin: 10px 0;">ஏதாவது சந்தேகம்னா அட்மின்கிட்ட நேரடியா கேளுங்க.</p>
+        <button class="btn-main" onclick="window.open('https://wa.me/917845229384')" style="width: 100%; background: #25D366; color: white;">CHAT ON WHATSAPP</button>
+    </div>
+
+    <div style="text-align: left; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 15px;">
+        <h4 style="color: var(--secondary); margin-bottom: 10px;">அடிக்கடி கேட்கப்படும் கேள்விகள் (FAQ)</h4>
+        <p style="font-size: 0.9rem; margin-bottom: 10px;"><b>1. காயின்ஸ் எப்போ ஆட் ஆகும்?</b><br>நீங்க ஐடி வாங்கும்போது அட்மின் ஆட் பண்ணுவார்.</p>
+        <p style="font-size: 0.9rem; margin-bottom: 10px;"><b>2. பணம் எப்போ கிடைக்கும்?</b><br>ரிடீம் பண்ண 24 மணி நேரத்துக்குள்ள பணம் வந்துடும்.</p>
+    </div>
+</main>
+
+</body>
+</html>
+

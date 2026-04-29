@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FF Store | Settings</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+</head>
+<body>
+
+<header>
+    <div onclick="location.href='index.html'" style="cursor: pointer;"><i class="fas fa-arrow-left"></i></div>
+    <div style="font-family: 'Orbitron'; color: var(--primary);">SETTINGS</div>
+    <div style="width: 20px;"></div>
+</header>
+
+<main style="padding: 20px;">
+    <div style="background: rgba(255,255,255,0.05); border-radius: 15px; overflow: hidden;">
+        <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fas fa-moon"></i> Dark Mode</span>
+            <span style="color: var(--secondary);">ON</span>
+        </div>
+        <div style="padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
+            <span><i class="fas fa-bell"></i> Notifications</span>
+            <span style="color: var(--secondary);">Active</span>
+        </div>
+        <div onclick="alert('App is up to date!')" style="padding: 20px; cursor: pointer;">
+            <span><i class="fas fa-info-circle"></i> Version</span>
+            <span style="float: right; color: #94a3b8;">V 2.0.1</span>
+        </div>
+    </div>
+
+    <p style="text-align: center; margin-top: 30px; font-size: 0.8rem; color: #94a3b8;">Created with ❤️ by Poornachandran</p>
+</main>
+
+</body>
+</html>
+
