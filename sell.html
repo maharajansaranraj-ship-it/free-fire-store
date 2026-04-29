@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ta">
 <head>
     <meta charset="UTF-8">
@@ -28,23 +28,23 @@
         <form id="sellForm">
             <div class="form-group">
                 <label>Player Name</label>
-                <input type="text" id="pName" placeholder="உங்க கேம் பெயர்" required>
+                <input type="text" id="pName" required>
             </div>
             <div class="form-group">
                 <label>Level</label>
-                <input type="number" id="pLevel" placeholder="உங்க ஐடி லெவல்" required>
+                <input type="number" id="pLevel" required>
             </div>
             <div class="form-group">
                 <label>WhatsApp Number</label>
-                <input type="tel" id="pPhone" placeholder="அட்மின் பேச வேண்டிய நம்பர்" required>
+                <input type="tel" id="pPhone" required>
             </div>
             <div class="form-group">
                 <label>Expected Price (₹)</label>
-                <input type="number" id="pPrice" placeholder="எவ்வளவு ரூபாய்க்கு விக்க போறீங்க?" required>
+                <input type="number" id="pPrice" required>
             </div>
             <div class="form-group">
                 <label>Main Items</label>
-                <textarea id="pDesc" rows="3" placeholder="Evo Guns, Old Bundles, etc..."></textarea>
+                <textarea id="pDesc" rows="3"></textarea>
             </div>
             
             <button type="button" class="btn-main" onclick="sendToAdmin()" style="width: 100%; margin-top: 10px;">SUBMIT TO ADMIN</button>
@@ -52,63 +52,56 @@
     </div>
 </main>
 
-<script>
-    function sendToAdmin() {
-        const name = document.getElementById('pName').value;
-        const level = document.getElementById('pLevel').value;
-        const phone = document.getElementById('pPhone').value;
-        const price = document.getElementById('pPrice').value;
-        const desc = document.getElementById('pDesc').value;
-
-        if(!name || !phone || !price) {
-            alert("முக்கியமான டீடைல்ஸை நிரப்புங்க பூர்ணா!");
-            return;
-        }
-
-        let msg = `*NEW SELL REQUEST*%0AName: ${name}%0ALevel: ${level}%0APhone: ${phone}%0APrice: ₹${price}%0ADetails: ${desc}`;
-        window.open(`https://wa.me/917845229384?text=${msg}`, '_blank');
-    }
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<!-- ✅ Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCAilX0GQnN127N1SxCJ861qMxAO0svNUQ",
-    authDomain: "ff-id-store-dab0f.firebaseapp.com",
-    projectId: "ff-id-store-dab0f",
-    storageBucket: "ff-id-store-dab0f.firebasestorage.app",
-    messagingSenderId: "655049193530",
-    appId: "1:655049193530:web:978aaf75e10dd26bb8dd03",
-    databaseURL: "https://ff-id-store-dab0f-default-rtdb.firebaseio.com"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCAilX0GQnN127N1SxCJ861qMxAO0svNUQ",
+  authDomain: "ff-id-store-dab0f.firebaseapp.com",
+  projectId: "ff-id-store-dab0f",
+  storageBucket: "ff-id-store-dab0f.firebasestorage.app",
+  messagingSenderId: "655049193530",
+  appId: "1:655049193530:web:978aaf75e10dd26bb8dd03",
+  databaseURL: "https://ff-id-store-dab0f-default-rtdb.firebaseio.com"
+};
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-  // யூசர் லாகின் செக் பண்ண
-  let userPhone = localStorage.getItem('ff_userphone');
-  if(!userPhone) {
-      userPhone = prompt("உங்க வாட்ஸ்அப் நம்பர் குடுங்க (Login):");
-      localStorage.setItem('ff_userphone', userPhone);
-  }
+// ✅ Submit function
+function sendToAdmin() {
+    const name = document.getElementById('pName').value;
+    const level = document.getElementById('pLevel').value;
+    const phone = document.getElementById('pPhone').value;
+    const price = document.getElementById('pPrice').value;
+    const desc = document.getElementById('pDesc').value;
 
-  // டேட்டாபேஸ்ல இருந்து காயின்ஸை எடுத்து எல்லா பேஜுக்கும் காட்டும்
-  db.ref('users/' + userPhone).on('value', (snapshot) => {
-      const userData = snapshot.val() || { coins: 0 };
-      localStorage.setItem('user_coins', userData.coins);
-      document.getElementById('user-coins').innerText = userData.coins;
-  });
+    if(!name || !phone || !price) {
+        alert("முக்கியமான டீடைல்ஸை நிரப்புங்க!");
+        return;
+    }
 
-  window.toggleMenu = function() {
-      const menu = document.getElementById('side-menu');
-      const overlay = document.getElementById('menu-overlay');
-      menu.style.left = (menu.style.left === '0px') ? '-300px' : '0px';
-      overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
-  }
-</script>
+    // 🔥 Save to Firebase
+    db.ref('sell_requests').push({
+        name: name,
+        level: level,
+        phone: phone,
+        price: price,
+        desc: desc,
+        status: "pending"
+    });
 
+    // ✅ WhatsApp message
+    let msg = `SELL REQUEST\nName: ${name}\nLevel: ${level}\nPhone: ${phone}\nPrice: ₹${price}\nDetails: ${desc}`;
+
+    window.open(`https://wa.me/917845229384?text=${encodeURIComponent(msg)}`, '_blank');
+
+    alert("Submitted successfully 🔥");
+    document.getElementById('sellForm').reset();
+}
 </script>
 
 </body>
 </html>
-
