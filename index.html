@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ta">
 <head>
     <meta charset="UTF-8">
@@ -31,6 +31,7 @@
         <a href="settings.html" class="nav-link"><i class="fas fa-cog"></i> Settings</a>
     </nav>
 </div>
+
 <div id="menu-overlay" onclick="toggleMenu()" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10001;"></div>
 
 <main style="padding: 20px;">
@@ -41,41 +42,12 @@
     </div>
 </main>
 
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
-
-    // நீங்க காப்பி பண்ண Firebase Config-ஐ இங்க போடுங்க
-    const firebaseConfig = {
-        apiKey: "AIzaSyCAilX0GQnN127N1SxCJ861qMxAO0svNUQ",
-        authDomain: "ff-id-store-dab0f.firebaseapp.com",
-        projectId: "ff-id-store-dab0f",
-        storageBucket: "ff-id-store-dab0f.firebasestorage.app",
-        messagingSenderId: "655049193530",
-        appId: "1:655049193530:web:978aaf75e10dd26bb8dd03",
-        databaseURL: "https://ff-id-store-dab0f-default-rtdb.firebaseio.com" // இதை செக் பண்ணிக்கோங்க
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-
-    // Hamburger Menu Function
-    window.toggleMenu = function() {
-        const menu = document.getElementById('side-menu');
-        const overlay = document.getElementById('menu-overlay');
-        if (menu.style.left === '0px') {
-            menu.style.left = '-300px';
-            overlay.style.display = 'none';
-        } else {
-            menu.style.left = '0px';
-            overlay.style.display = 'block';
-        }
-    }
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<!-- ✅ ONLY ONE FIREBASE (COMPAT VERSION) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
 <script>
-  const firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyCAilX0GQnN127N1SxCJ861qMxAO0svNUQ",
     authDomain: "ff-id-store-dab0f.firebaseapp.com",
     projectId: "ff-id-store-dab0f",
@@ -83,35 +55,39 @@
     messagingSenderId: "655049193530",
     appId: "1:655049193530:web:978aaf75e10dd26bb8dd03",
     databaseURL: "https://ff-id-store-dab0f-default-rtdb.firebaseio.com"
-  };
+};
 
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.database();
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
-  // யூசர் லாகின் செக் பண்ண
-  let userPhone = localStorage.getItem('ff_userphone');
-  if(!userPhone) {
-      userPhone = prompt("உங்க வாட்ஸ்அப் நம்பர் குடுங்க (Login):");
-      localStorage.setItem('ff_userphone', userPhone);
-  }
+// ✅ Login (phone number)
+let userPhone = localStorage.getItem('ff_userphone');
+if (!userPhone) {
+    userPhone = prompt("உங்க வாட்ஸ்அப் நம்பர் குடுங்க (Login):");
+    localStorage.setItem('ff_userphone', userPhone);
+}
 
-  // டேட்டாபேஸ்ல இருந்து காயின்ஸை எடுத்து எல்லா பேஜுக்கும் காட்டும்
-  db.ref('users/' + userPhone).on('value', (snapshot) => {
-      const userData = snapshot.val() || { coins: 0 };
-      localStorage.setItem('user_coins', userData.coins);
-      document.getElementById('user-coins').innerText = userData.coins;
-  });
+// ✅ Coins fetch
+db.ref('users/' + userPhone).on('value', (snapshot) => {
+    const userData = snapshot.val() || { coins: 0 };
+    localStorage.setItem('user_coins', userData.coins);
+    document.getElementById('user-coins').innerText = userData.coins;
+});
 
-  window.toggleMenu = function() {
-      const menu = document.getElementById('side-menu');
-      const overlay = document.getElementById('menu-overlay');
-      menu.style.left = (menu.style.left === '0px') ? '-300px' : '0px';
-      overlay.style.display = (overlay.style.display === 'block') ? 'none' : 'block';
-  }
-</script>
+// ✅ Menu toggle
+function toggleMenu() {
+    const menu = document.getElementById('side-menu');
+    const overlay = document.getElementById('menu-overlay');
 
+    if (menu.style.left === '0px') {
+        menu.style.left = '-300px';
+        overlay.style.display = 'none';
+    } else {
+        menu.style.left = '0px';
+        overlay.style.display = 'block';
+    }
+}
 </script>
 
 </body>
 </html>
-
